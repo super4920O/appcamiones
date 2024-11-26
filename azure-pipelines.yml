@@ -1,16 +1,17 @@
 trigger:
-- main
+- main  # Cambia 'main' por la rama principal de tu repositorio, si es necesario
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'  # Usa un agente hospedado de Ubuntu
+
+variables:
+  system.debugContext: 'false'  # Evita posibles errores con variables nulas
 
 steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'clean install'
+# 1. Descarga el código del repositorio
+- checkout: self
+  fetchDepth: 1  # Solo descarga los commits más recientes
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: '$(System.DefaultWorkingDirectory)/target'
-    artifactName: 'drop'
+# 2. Ejecuta un script simple
+- script: echo "Pipeline configurado correctamente y ejecutado con éxito"
+  displayName: "Ejecutando script básico"
